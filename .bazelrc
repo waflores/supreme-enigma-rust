@@ -11,8 +11,6 @@ build:bezel --bes_results_url=http://127.0.0.1:8085/pipeline
 build:bezel --bes_timeout=5s
 build:bezel --build_event_publish_all_actions
 
-
-build --noincompatible_disallow_empty_glob
 build:windows --enable_runfiles # https://github.com/bazelbuild/bazel/issues/8843
 
 # Visual Studio 2019
@@ -36,7 +34,6 @@ build:windows --copt=-DWIN32_LEAN_AND_MEAN
 build:windows --copt=-DNOGDI
 build:windows --host_copt=-DWIN32_LEAN_AND_MEAN
 build:windows --host_copt=-DNOGDI
-
 
 ###############################################################################
 ## Bazel Configuration Flags
@@ -76,8 +73,9 @@ build --incompatible_autoload_externally=
 # A configuration for disabling bzlmod.
 common:no-bzlmod --noenable_bzlmod --enable_workspace
 
+# XXX (@WFlores - 2025-04-26): we will just have the lockfile for now.
 # Disable the bzlmod lockfile, so we don't accidentally commit MODULE.bazel.lock
-common --lockfile_mode=off
+# common --lockfile_mode=off
 
 ###############################################################################
 ## Custom user flags
@@ -87,4 +85,4 @@ common --lockfile_mode=off
 ## evaluated top to bottom.
 ###############################################################################
 
-try-import %workspace%/user.bazelrc
+try-import %workspace%/.user.bazelrc
