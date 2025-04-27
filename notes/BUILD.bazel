@@ -1,0 +1,25 @@
+# WinAPI Reference
+# https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-sendmessagea
+WIN_LINK_OPTS = [
+    "-SUBSYSTEM:WINDOWS",
+    "-DEFAULTLIB:msvcprtd.lib",
+    # "-DEFAULTLIB:ucrtd.lib",
+    # "-DEFAULTLIB:advapi32.lib",  # GetUserNameW
+    # "-DEFAULTLIB:ole32.lib",  # CoTaskMemFree
+    # "-DEFAULTLIB:shell32.lib",  # SHGetKnownFolderPath
+    # "-DEFAULTLIB:ws2_32.lib",  # grpc
+    # "-DEFAULTLIB:comctl32.lib",
+    # "-DEFAULTLIB:iphlpapi.lib",
+    "-DEFAULTLIB:User32.lib",  # SendMessageA, CreateWindowExA, DestroyWindow, SetWindowPos, GetSystemMetrics, SetWindowTextA
+    # GetWindowRect, GetWindowLongPtrA, GetDesktopWindow, GetParent, wvsprintfA, DialogBoxIndirectParamA, DestroyIcon, LoadIconA
+    # EndDialog, SetFocus, DrawIcon, GetDC, ReleaseDC
+    # "-DEFAULTLIB:Gdi32.lib",  # GetTextExtentPoint32,
+]
+
+cc_binary(
+    name = "run_pwsh_script",
+    srcs = ["run_powershell_script.cc"],
+    data = ["DisplayScript.ps1"],
+    visibility = ["//visibility:public"],
+    deps = ["@bazel_tools//tools/cpp/runfiles"],
+)
