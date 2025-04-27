@@ -1,8 +1,9 @@
-#include <filesystem>
-#include <fstream>
-#include <iostream>
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include <windows.h>
 
-namespace fs = std::filesystem;
+#include <iostream>
 
 #include "tools/cpp/runfiles/runfiles.h"
 using bazel::tools::cpp::runfiles::Runfiles;
@@ -20,37 +21,50 @@ int main(int argc, char **argv) {
   // error handling
   //   }
 
-  std::string powershell_script =
+  std::string b_powershell_script =
       runfiles->Rlocation("_main/notes/DisplayScript.ps1");
+
+  //   We need to convert powershell_script to LPWSTR
+  std::wstring _powershell_script(b_powershell_script.begin(),
+                                  b_powershell_script.end());
+  LPWSTR powershell_script = const_cast<wchar_t *>(_powershell_script.c_str());
 
   std::cout << "Hello from Rustoelem! Trying to read the powershell file now:"
             << std::endl
             << std::endl;
-  std::ifstream ifs(powershell_script);
-  std::cout << ifs.rdbuf() << std::endl;
+
+  STARTUPINFOW si;
+  PROCESS_INFORMATION pi;
+
+  ZeroMemory(&si, sizeof(si));
+  si.cb = sizeof(si);
+  ZeroMemory(&pi, sizeof(pi));
+
+  if (!CreateProcessW(
+          /* lpApplicationName */ nullptr,
+          /* lpCommandLine */ powershell_script,
+          /* lpProcessAttributes */ nullptr,
+          /* lpThreadAttributes */ nullptr,
+          /* bInheritHandles */ FALSE,
+          /* dwCreationFlags */ CREATE_NO_WINDOW | CREATE_NEW_PROCESS_GROUP |
+              CREATE_SUSPENDED | CREATE_UNICODE_ENVIRONMENT,
+          /* lpEnvironment */ nullptr,
+          /* lpCurrentDirectory */ nullptr,
+          /* lpStartupInfo */ &si,
+          /* lpProcessInformation */ &pi)) {
+    std::cerr << "CreateProcess failed (" << GetLastError() << ").\n";
+    return 1;
+  };
+
+  std::cout << "Process created with ID: " << pi.dwProcessId << "\n";
+
+  WaitForSingleObject(pi.hProcess, INFINITE);
+
+  CloseHandle(pi.hProcess);
+  CloseHandle(pi.hThread);
 
   return 0;
 }
 
-//   if (!CreateProcessW(
-//           /* lpApplicationName */ nullptr,
-//           /* lpCommandLine */ mutable_commandline.get(),
-//           /* lpProcessAttributes */ nullptr,
-//           /* lpThreadAttributes */ nullptr,
-//           /* bInheritHandles */ attr_list->InheritAnyHandles() ? TRUE :
-//           FALSE,
-//           /* dwCreationFlags */ (create_window ? 0 : CREATE_NO_WINDOW) |
-//               (handle_signals ? 0
-//                               : CREATE_NEW_PROCESS_GROUP) // So that
-//                               Ctrl-Break
-//                                                           // isn't
-//                                                           propagated
-//               | CREATE_SUSPENDED // So that it doesn't start a new job
-//               itself | EXTENDED_STARTUPINFO_PRESENT |
-//               CREATE_UNICODE_ENVIRONMENT,
-//           /* lpEnvironment */ env,
-//           /* lpCurrentDirectory */ cwd.empty() ? nullptr : cwd.c_str(),
-//           /* lpStartupInfo */ &info.StartupInfo,
-//           /* lpProcessInformation */ &process_info)) {
-//     DWORD err = GetLastError();
+//   if (!
 //   }

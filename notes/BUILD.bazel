@@ -1,8 +1,8 @@
 # WinAPI Reference
 # https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-sendmessagea
 WIN_LINK_OPTS = [
-    "-SUBSYSTEM:WINDOWS",
-    "-DEFAULTLIB:msvcprtd.lib",
+    # "-SUBSYSTEM:WINDOWS",
+    # "-DEFAULTLIB:msvcprtd.lib",
     # "-DEFAULTLIB:ucrtd.lib",
     # "-DEFAULTLIB:advapi32.lib",  # GetUserNameW
     # "-DEFAULTLIB:ole32.lib",  # CoTaskMemFree
@@ -10,7 +10,7 @@ WIN_LINK_OPTS = [
     # "-DEFAULTLIB:ws2_32.lib",  # grpc
     # "-DEFAULTLIB:comctl32.lib",
     # "-DEFAULTLIB:iphlpapi.lib",
-    "-DEFAULTLIB:User32.lib",  # SendMessageA, CreateWindowExA, DestroyWindow, SetWindowPos, GetSystemMetrics, SetWindowTextA
+    # "-DEFAULTLIB:User32.lib",  # SendMessageA, CreateWindowExA, DestroyWindow, SetWindowPos, GetSystemMetrics, SetWindowTextA
     # GetWindowRect, GetWindowLongPtrA, GetDesktopWindow, GetParent, wvsprintfA, DialogBoxIndirectParamA, DestroyIcon, LoadIconA
     # EndDialog, SetFocus, DrawIcon, GetDC, ReleaseDC
     # "-DEFAULTLIB:Gdi32.lib",  # GetTextExtentPoint32,
@@ -20,6 +20,13 @@ cc_binary(
     name = "run_pwsh_script",
     srcs = ["run_powershell_script.cc"],
     data = ["DisplayScript.ps1"],
+    defines = [
+        "UNICODE",
+        "_UNICODE",
+        "_WIN64",
+        "_WINDOWS",
+    ],
+    linkopts = WIN_LINK_OPTS,
     visibility = ["//visibility:public"],
     deps = ["@bazel_tools//tools/cpp/runfiles"],
 )
