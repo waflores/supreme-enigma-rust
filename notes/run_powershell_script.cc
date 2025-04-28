@@ -1,7 +1,5 @@
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
 #include <windows.h>
+#include <shellapi.h>
 
 #include <iostream>
 
@@ -33,6 +31,13 @@ int main(int argc, char **argv) {
             << std::endl
             << std::endl;
 
+  ShellExecuteW(/* HWND  hwnd */ nullptr,
+                /* LPCWSTR lpOperation */ nullptr,
+                /* LPCWSTR lpFile */ powershell_script,
+                /* LPCWSTR lpParameters */ nullptr,
+                /* LPCWSTR lpDirectory */ nullptr,
+                /* INT nShowCmd */ SW_NORMAL);
+#if 0
   STARTUPINFOW si;
   PROCESS_INFORMATION pi;
 
@@ -62,6 +67,7 @@ int main(int argc, char **argv) {
 
   CloseHandle(pi.hProcess);
   CloseHandle(pi.hThread);
+#endif
 
   return 0;
 }

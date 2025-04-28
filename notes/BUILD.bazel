@@ -6,7 +6,7 @@ WIN_LINK_OPTS = [
     # "-DEFAULTLIB:ucrtd.lib",
     # "-DEFAULTLIB:advapi32.lib",  # GetUserNameW
     # "-DEFAULTLIB:ole32.lib",  # CoTaskMemFree
-    # "-DEFAULTLIB:shell32.lib",  # SHGetKnownFolderPath
+    "-DEFAULTLIB:shell32.lib",  # SHGetKnownFolderPath
     # "-DEFAULTLIB:ws2_32.lib",  # grpc
     # "-DEFAULTLIB:comctl32.lib",
     # "-DEFAULTLIB:iphlpapi.lib",
@@ -25,6 +25,7 @@ cc_binary(
         "_UNICODE",
         "_WIN64",
         "_WINDOWS",
+        "WIN32_LEAN_AND_MEAN"
     ],
     linkopts = WIN_LINK_OPTS,
     visibility = ["//visibility:public"],
