@@ -2,6 +2,7 @@
 #include <shellapi.h>
 
 #include <iostream>
+#include <winuser.h>
 
 #include "tools/cpp/runfiles/runfiles.h"
 using bazel::tools::cpp::runfiles::Runfiles;
@@ -31,12 +32,14 @@ int main(int argc, char **argv) {
             << std::endl
             << std::endl;
 
+  LPCWSTR action_on_file = L"open";
+  LPCWSTR interpreter = L"pwsh";
   ShellExecuteW(/* HWND  hwnd */ nullptr,
-                /* LPCWSTR lpOperation */ nullptr,
-                /* LPCWSTR lpFile */ powershell_script,
-                /* LPCWSTR lpParameters */ nullptr,
+                /* LPCWSTR lpOperation */ action_on_file,
+                /* LPCWSTR lpFile */ interpreter,
+                /* LPCWSTR lpParameters */ powershell_script,
                 /* LPCWSTR lpDirectory */ nullptr,
-                /* INT nShowCmd */ SW_NORMAL);
+                /* INT nShowCmd */ SW_SHOWMAXIMIZED);
 #if 0
   STARTUPINFOW si;
   PROCESS_INFORMATION pi;
