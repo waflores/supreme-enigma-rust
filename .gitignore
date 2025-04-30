@@ -17,3 +17,7 @@ target/
 #.idea/
 /.vscode/
 bazel-*
+
+# Added by cargo
+
+/target
