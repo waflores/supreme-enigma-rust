@@ -8,6 +8,19 @@ module(name = "hello-world")
 # bazel_dep(name = "rules_pkg", version = "1.1.0")
 # bazel_dep(name = "rules_python", version = "1.1.0")
 
+bazel_dep(name = "toolchains_llvm", version = "1.4.0")
+
+# Configure and register the toolchain.
+llvm = use_extension("@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm")
+llvm.toolchain(
+   llvm_version = "20.1.4",
+)
+
+use_repo(llvm, "llvm_toolchain")
+# use_repo(llvm, "llvm_toolchain_llvm") # if you depend on specific tools in scripts
+
+register_toolchains("@llvm_toolchain//:all")
+
 bazel_dep(name = "rules_rust", version = "0.60.0")
 
 RUST_EDITION = "2024"  # NOTE: 2024 will be released with Rust 1.86.0
@@ -35,6 +48,3 @@ crate.from_cargo(
     manifests = ["//:Cargo.toml"],
 )
 use_repo(crate, "crates")
-
-
-bazel_dep(name = "bazel_env.bzl", version = "0.2.0")
