@@ -1,10 +1,16 @@
-load("@rules_rust//rust:defs.bzl", "rust_binary")
 load("@crates//:defs.bzl", "all_crate_deps")
+load("@rules_rust//rust:defs.bzl", "rust_binary")
 
 package(default_visibility = ["//visibility:public"])
 
 rust_binary(
     name = "hello_world",
     srcs = ["src/main.rs"],
+    deps = all_crate_deps(normal = True),
+)
+
+rust_binary(
+    name = "system_info",
+    srcs = ["src/system_info.rs"],
     deps = all_crate_deps(normal = True),
 )
