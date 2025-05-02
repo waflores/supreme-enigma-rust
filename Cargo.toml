@@ -1,5 +1,5 @@
 [workspace]
-
+cargo-features = ["edition2024"]
 [package]
 name = "hello_world"
 version = "0.1.0"
@@ -8,3 +8,4 @@ edition = "2024"
 [dependencies]
 anyhow = "1.0.98"
 iced = { version = "0.13.1", features = ["system"] }
+bytesize = "1.1"
