@@ -16,13 +16,7 @@ bazel_env(
 )
 
 rust_binary(
-    name = "hello_world",
-    srcs = ["src/main.rs"],
-    deps = all_crate_deps(normal = True),
-)
-
-rust_binary(
     name = "system_info",
-    srcs = ["src/system_info.rs"],
+    srcs = ["src/main.rs"],
     deps = all_crate_deps(normal = True),
 )
