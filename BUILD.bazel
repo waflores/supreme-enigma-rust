@@ -1,7 +1,19 @@
 load("@crates//:defs.bzl", "all_crate_deps")
 load("@rules_rust//rust:defs.bzl", "rust_binary")
+load("@bazel_env.bzl", "bazel_env")
 
 package(default_visibility = ["//visibility:public"])
+
+# `bazel run //:bazel_env` prints a summary and setup steps.
+bazel_env(
+    name = "bazel_env",
+    tools = {
+        "cargo": "@rules_rust//tools/upstream_wrapper:cargo",
+        "cargo-clippy": "@rules_rust//tools/upstream_wrapper:cargo_clippy",
+        "rustc": "@rules_rust//tools/upstream_wrapper:rustc",
+        "rustfmt": "@rules_rust//tools/upstream_wrapper:rustfmt",
+    },
+)
 
 rust_binary(
     name = "hello_world",

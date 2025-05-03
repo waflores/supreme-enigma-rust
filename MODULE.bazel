@@ -1,5 +1,6 @@
 module(name = "hello-world")
 
+bazel_dep(name = "bazel_env.bzl", version = "0.1.0", dev_dependency = True)
 bazel_dep(name = "rules_rust", version = "0.60.0")
 
 RUST_EDITION = "2024"  # NOTE: 2024 will be released with Rust 1.86.0
