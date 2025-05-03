@@ -49,6 +49,7 @@ impl Example {
 
     fn view(&self) -> Element<Message> {
         use bytesize::ByteSize;
+        let _ = system::fetch_information().map(Message::InformationReceived);
 
         let content: Element<_> = match self {
             Example::Loading => text("Loading...").size(40).into(),
