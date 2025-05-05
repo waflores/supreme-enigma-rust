@@ -8,4 +8,4 @@ edition = "2024"
 [dependencies]
 anyhow = "1.0.98"
 iced = { version = "0.13.1", features = ["system"] }
-bytesize = "1.1"
+bytesize = "2.0.1"
