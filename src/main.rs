@@ -1,5 +1,5 @@
 use iced::widget::{button, center, column, text};
-use iced::{Element, Task, system};
+use iced::{system, Element, Task};
 
 pub fn main() -> iced::Result {
     iced::application("App", Example::update, Example::view).run()
