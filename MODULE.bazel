@@ -20,14 +20,26 @@ register_toolchains("@rust_toolchains//:all")
 ###############################################################################
 # Rust Dependencies #
 ###############################################################################
-
+EGUI_VERSION = "0.31.1"
 crate = use_extension(
     "@rules_rust//crate_universe:extensions.bzl",
     "crate",
 )
-crate.from_cargo(
-    name = "crates",
-    cargo_lockfile = "//:Cargo.lock",
-    manifests = ["//:Cargo.toml"],
+
+crate.spec(package = "anyhow", version = "1.0.98")
+crate.spec(package = "bytesize", version = "2.0.1")
+crate.spec(package = "iced", features = ["system"], version = "0.13.1")
+crate.spec(package = "egui", version = EGUI_VERSION)
+crate.spec(package = "eframe", features = ["default", "__screenshot"], version = EGUI_VERSION)
+crate.spec(package = "egui_extras", features = ["default", "image"], version = EGUI_VERSION)
+crate.spec(package = "env_logger", version = "0.11.8")
+
+crate.annotation(
+    crate = "khronos_api",
+    patches = ["@//external_crate_builds:0001-Fix-build-with-Bazel.patch"],
+    patch_args = ["-p1"],
 )
+
+crate.from_specs()
+
 use_repo(crate, "crates")

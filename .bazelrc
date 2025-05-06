@@ -1,4 +1,5 @@
 startup --windows_enable_symlinks # --host_jvm_args=-Djavax.net.ssl.trustStoreType=WINDOWS-ROOT
+startup --output_user_root=C:/bzl
 common --enable_platform_specific_config --repo_env=LC_ALL="en_US.UTF-8"
 # Enable Bzlmod for every Bazel command
 common --enable_bzlmod

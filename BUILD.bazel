@@ -20,3 +20,14 @@ rust_binary(
     srcs = ["src/main.rs"],
     deps = all_crate_deps(normal = True),
 )
+
+rust_binary(
+    name = "egui_example",
+    srcs = ["src/egui_example.rs"],
+    deps = [
+        "@crates//:eframe",
+        "@crates//:egui",
+        "@crates//:egui_extras",
+        "@crates//:env_logger",
+    ],
+)

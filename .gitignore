@@ -18,6 +18,5 @@ target/
 /.vscode/
 bazel-*
 
-# Added by cargo
-
-/target
+# rust-analyzer config file
+rust-project.json
