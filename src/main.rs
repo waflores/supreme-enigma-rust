@@ -5,7 +5,7 @@ pub fn main() -> iced::Result {
     iced::application("App", Example::update, Example::view).run()
 }
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 #[allow(clippy::large_enum_variant)]
 enum Example {
     #[default]
@@ -49,7 +49,6 @@ impl Example {
 
     fn view(&self) -> Element<Message> {
         use bytesize::ByteSize;
-        let _ = system::fetch_information().map(Message::InformationReceived);
 
         let content: Element<_> = match self {
             Example::Loading => text("Loading...").size(40).into(),
@@ -95,7 +94,7 @@ impl Example {
                         .map_or("unknown".to_string(), |cores| cores.to_string())
                 );
 
-                let memory_readable = ByteSize::b(information.memory_total).to_string_as(true);
+                let memory_readable = ByteSize::b(information.memory_total).to_string();
 
                 let memory_total = text!(
                     "Memory (total): {} bytes ({memory_readable})",
@@ -103,7 +102,7 @@ impl Example {
                 );
 
                 let memory_text = if let Some(memory_used) = information.memory_used {
-                    let memory_readable = ByteSize::b(memory_used).to_string_as(true);
+                    let memory_readable = ByteSize::b(memory_used).to_string();
 
                     format!("{memory_used} bytes ({memory_readable})")
                 } else {
